@@ -1,0 +1,36 @@
+import requests
+import time
+
+# 🔧 Заміни на свій токен та канал
+BOT_TOKEN = 'тут_твій_токен'
+CHANNEL_USERNAME = '@your_channel_name'  # без пробілів
+
+API_URL = 'https://api.alerts.in.ua/v1/alerts/active'
+REGION = 'kyivska'
+
+already_alerting = False
+
+def send_message(text):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    data = {'chat_id': CHANNEL_USERNAME, 'text': text}
+    requests.post(url, data=data)
+
+while True:
+    try:
+        response = requests.get(API_URL)
+        data = response.json()
+
+        region_alert = any(alert["region"] == REGION for alert in data)
+
+        if region_alert and not already_alerting:
+            send_message("🚨 Увага! Повітряна тривога в Київській області!")
+            already_alerting = True
+
+        elif not region_alert and already_alerting:
+            send_message("✅ Відбій тривоги в Київській області.")
+            already_alerting = False
+
+    except Exception as e:
+        print("Помилка:", e)
+
+    time.sleep(60)  # перевірка раз на хвилину
