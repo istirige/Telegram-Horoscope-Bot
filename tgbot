@@ -2,8 +2,8 @@ import requests
 import time
 
 # 🔧 Заміни на свій токен та канал
-BOT_TOKEN = 'тут_твій_токен'
-CHANNEL_USERNAME = '@your_channel_name'  # без пробілів
+BOT_TOKEN = '7486936799:AAFwpX_xvU2LS-esRZIfqkgkGJh1d1ry7P4'
+CHANNEL_USERNAME = '@cloudofnews'  # без пробілів
 
 API_URL = 'https://api.alerts.in.ua/v1/alerts/active'
 REGION = 'kyivska'
